@@ -1,5 +1,4 @@
 # Hd-Admin
-Roblox script lua
 
 ## status: Offline
 ## api: Offline
