@@ -1,7 +1,7 @@
 # Hd-Admin
 
-## status: Offline
-## api: Offline
+## status: Online 
+## api: Online
 
 ## script load
 ```lua
