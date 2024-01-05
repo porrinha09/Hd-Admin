@@ -1,3 +1,6 @@
+## status: Offline
+## api: Offline
+
 # Hd-Admin
 Roblox script lua
 
