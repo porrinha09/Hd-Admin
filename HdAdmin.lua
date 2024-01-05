@@ -1,10 +1,16 @@
+-- versão
+currentVersion = '2.0.1'
+
  -- load
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/porrinha09/lib_orion/main/soure.lua')))()
-local Window = OrionLib:MakeWindow({Name = "Hd admin - v2.0", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hd admin - v" .. currentVersion, HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-wait(1)
+wait(0)
 -- api load
-loadstring(game:HttpGet("https://raw.githubusercontent.com/porrinha09/lib_script/main/api%20load.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/porrinha09/Hd-Admin/main/api%20load.lua"))()
+
+local player = game.Players.LocalPlayer
+local name = player.DisplayName
 
 -- tabs
 local Tab = Window:MakeTab({
@@ -12,7 +18,7 @@ local Tab = Window:MakeTab({
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
-Tab:AddLabel("bem vindo")
+Tab:AddLabel("bem vindo: " .. name)
 local Section = Tab:AddSection({
 	Name = "by: Kelvin"
 })
@@ -28,126 +34,81 @@ local Section = Tab:AddSection({
 Tab:AddButton({
 	Name = ";bola",
 	Callback = function()
-  local UserInputService = game:GetService("UserInputService")
-
+      	                local UserInputService = game:GetService("UserInputService")
                 local RunService = game:GetService("RunService")
-
                 local Camera = workspace.CurrentCamera
-
                 
-
                 local SPEED_MULTIPLIER = 30
-
                 local JUMP_POWER = 60
-
                 local JUMP_GAP = 0.3
-
                 
-
                 local character = game.Players.LocalPlayer.Character
-
                 
-
                 for i,v in ipairs(character:GetDescendants()) do
-
                    if v:IsA("BasePart") then
-
                        v.CanCollide = false
-
                    end
-
                 end
-
                 
-
                 local ball = character.HumanoidRootPart
-
                 ball.Shape = Enum.PartType.Ball
-
                 ball.Size = Vector3.new(5,5,5)
-
                 local humanoid = character:WaitForChild("Humanoid")
-
                 local params = RaycastParams.new()
-
                 params.FilterType = Enum.RaycastFilterType.Blacklist
-
                 params.FilterDescendantsInstances = {character}
-
                 
-
                 local tc = RunService.RenderStepped:Connect(function(delta)
-
                    ball.CanCollide = true
-
                    humanoid.PlatformStand = true
-
                 if UserInputService:GetFocusedTextBox() then return end
-
                 if UserInputService:IsKeyDown("W") then
-
                 ball.RotVelocity -= Camera.CFrame.RightVector * delta * SPEED_MULTIPLIER
-
                 end
-
                 if UserInputService:IsKeyDown("A") then
-
                 ball.RotVelocity -= Camera.CFrame.LookVector * delta * SPEED_MULTIPLIER
-
                 end
-
                 if UserInputService:IsKeyDown("S") then
-
                 ball.RotVelocity += Camera.CFrame.RightVector * delta * SPEED_MULTIPLIER
-
                 end
-
                 if UserInputService:IsKeyDown("D") then
-
                 ball.RotVelocity += Camera.CFrame.LookVector * delta * SPEED_MULTIPLIER
-
                 end
-
                 --ball.RotVelocity = ball.RotVelocity - Vector3.new(0,ball.RotVelocity.Y/50,0)
-
                 end)
-
                 
-
                 UserInputService.JumpRequest:Connect(function()
-
                 local result = workspace:Raycast(
-
                 ball.Position,
-
                 Vector3.new(
-
                 0,
-
                 -((ball.Size.Y/2)+JUMP_GAP),
-
                 0
-
                 ),
-
                 params
-
                 )
-
                 if result then
-
                 ball.Velocity = ball.Velocity + Vector3.new(0,JUMP_POWER,0)
-
                 end
-
                 end)
-
                 
-
                 Camera.CameraSubject = ball
+                humanoid.Died:Connect(function() tc:Disconnect() end)
+  	end    
+})
+Tab:AddButton({
+	Name = ";sit",
+	Callback = function()
+      		local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
 
-                humanoid.Died:Connect(function() tc:Disconnect() 
-                end)
+local function onJump()
+    humanoid.Sit = false
+end
+
+humanoid.Sit = true
+humanoid.Jumping:Connect(onJump)
   	end    
 })
 
@@ -223,6 +184,24 @@ Tab:AddButton({
 local Section = Tab:AddSection({
 	Name = "básicos"
 })
+Tab:AddButton({
+	Name = "andar reto",
+	Callback = function()
+      		local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local function onJump()
+    humanoid.AutoRotate = true
+    humanoid.MoveDirection = Vector3.new(0, 0, 0)
+    humanoid:MoveTo(humanoid.RootPart.Position)
+end
+
+humanoid.AutoRotate = false
+humanoid.Jumping:Connect(onJump)
+  	end    
+})
+Tab:AddLabel("para desativar e só pular")
 Tab:AddButton({
 	Name = "resetar",
 	Callback = function()
@@ -338,6 +317,26 @@ teleportToClosestPlayer()
   	end    
 })
 Tab:AddButton({
+	Name = "tp pessoas mais longe",
+	Callback = function()
+      		local players = game.Players:GetPlayers()
+local farthestPlayer = nil
+local farthestDistance = 0
+
+for i, player in ipairs(players) do
+    local distance = (player.Character.HumanoidRootPart.Position - Vector3.new(x, y, z)).Magnitude
+    if distance > farthestDistance then
+        farthestPlayer = player
+        farthestDistance = distance
+    end
+end
+
+if farthestPlayer then
+    farthestPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(x, y, z)
+end
+  	end    
+})
+Tab:AddButton({
 	Name = "TP Tool",
 	Callback = function()
       	 mouse = game.Players.LocalPlayer:GetMouse()
@@ -350,6 +349,36 @@ pos = CFrame.new(pos.X,pos.Y,pos.Z)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end)
 tool.Parent = game.Players.LocalPlayer.Backpack
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "Loops",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "Loops em vc:"
+})
+Tab:AddLabel("n tem como desativar, então usem com cuidado")
+Tab:AddButton({
+	Name = "pular loop",
+	Callback = function()
+      		while true do
+   -- Faz o personagem pular
+local character = game.Players.LocalPlayer.Character
+character:WaitForChild("Humanoid").Jump = true
+    wait(1) 
+end
+  	end    
+})
+Tab:AddButton({
+	Name = "morrer loop",
+	Callback = function()
+      		while true do 
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    wait(1) 
+end
   	end    
 })
 
@@ -368,7 +397,7 @@ Tab:AddButton({
   	end    
 })
 Tab:AddButton({
-	Name = "matar policial",
+	Name = "matar jogadores",
 	Callback = function()
       		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(818.3822631835938, 130.03990173339844, 2583.103271484375)
   	end    
@@ -488,6 +517,12 @@ Tab:AddButton({
       		loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
   	end    
 })
+Tab:AddButton({
+	Name = "criar teclas",
+	Callback = function()
+      		loadstring(game:HttpGet(('https://pastefy.app/Ujm4HWxh/raw'),true))()
+  	end    
+})
 
 -- criar scripts
 local Tab = Window:MakeTab({
@@ -557,12 +592,6 @@ local Section = Tab:AddSection({
 	Name = "prison life"
 })
 Tab:AddButton({
-	Name = "tiger admin",
-	Callback = function()
-      		loadstring(game:HttpGet(('https://raw.githubusercontent.com/h17s3/TIGERADMIN/main/TIGERADMINSCRIPTFREE'),true))()
-  	end    
-})
-Tab:AddButton({
 	Name = "prisonware",
 	Callback = function()
       		loadstring(game:HttpGet("https://raw.githubusercontent.com/Denverrz/scripts/master/PRISONWARE_v1.3.txt"))();
@@ -581,6 +610,21 @@ Tab:AddButton({
 	Name = "tect menu",
 	Callback = function()
       		loadstring(game:HttpGet("https://raw.githubusercontent.com/Infinity2346/Tect-Menu/main/Arsenalscript.txt"))()
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "meus scripts",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "meus scripts"
+})
+Tab:AddButton({
+	Name = "infinite yield remaster",
+	Callback = function()
+      		loadstring(game:HttpGet("https://raw.githubusercontent.com/porrinha09/Infinite-yield-remaster-v1/main/infinite%20yield.lua",true))()
   	end    
 })
 
