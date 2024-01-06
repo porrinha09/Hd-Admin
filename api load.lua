@@ -1,5 +1,5 @@
--- api load;
--- by: wes
+-- api load:
+-- by: weszin
 
 -- notificação
 local Players = game:GetService("Players")
