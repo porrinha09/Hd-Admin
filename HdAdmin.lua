@@ -1,16 +1,21 @@
 -- versão
-currentVersion = '2.0.1'
+Version = '2.0.1'
+
+-- by
+dono = " Kelvin"
 
  -- load
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/porrinha09/lib_orion/main/soure.lua')))()
-local Window = OrionLib:MakeWindow({Name = "Hd admin - v" .. currentVersion, HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "HD Admin - v" .. Version, HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-wait(0)
+wait(1)
 -- api load
 loadstring(game:HttpGet("https://raw.githubusercontent.com/porrinha09/Hd-Admin/main/api%20load.lua"))()
 
 local player = game.Players.LocalPlayer
 local name = player.DisplayName
+
+local mapa = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
 -- tabs
 local Tab = Window:MakeTab({
@@ -19,8 +24,9 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 Tab:AddLabel("bem vindo: " .. name)
+Tab:AddLabel("jogo: " .. mapa)
 local Section = Tab:AddSection({
-	Name = "by: Kelvin"
+	Name = "by:" .. dono
 })
 
 local Tab = Window:MakeTab({
@@ -111,6 +117,28 @@ humanoid.Sit = true
 humanoid.Jumping:Connect(onJump)
   	end    
 })
+Tab:AddButton({
+	Name = ";pulo infinito",
+	Callback = function()
+      		local infinjump = true
+game:GetService("UserInputService").jumpRequest:Connect(function()
+    if infinjump then
+        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+  	end    
+})
+Tab:AddButton({
+	Name = ";desativar pulo infinito",
+	Callback = function()
+      		local infinjump = false
+game:GetService("UserInputService").jumpRequest:Connect(function()
+    if infinjump then
+        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+  	end    
+})
 
 local Tab = Window:MakeTab({
 	Name = "player",
@@ -185,24 +213,6 @@ local Section = Tab:AddSection({
 	Name = "básicos"
 })
 Tab:AddButton({
-	Name = "andar reto",
-	Callback = function()
-      		local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-
-local function onJump()
-    humanoid.AutoRotate = true
-    humanoid.MoveDirection = Vector3.new(0, 0, 0)
-    humanoid:MoveTo(humanoid.RootPart.Position)
-end
-
-humanoid.AutoRotate = false
-humanoid.Jumping:Connect(onJump)
-  	end    
-})
-Tab:AddLabel("para desativar e só pular")
-Tab:AddButton({
 	Name = "resetar",
 	Callback = function()
       		game.Players.LocalPlayer.Character.Humanoid.Health = 0
@@ -228,6 +238,58 @@ Tab:AddTextbox({
 game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(unpack(args))
 	end	  
 })
+local Section = Tab:AddSection({
+	Name = "movimentação"
+})
+Tab:AddButton({
+	Name = "desativar movimentos",
+	Callback = function()
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+character:WaitForChild("Humanoid")
+
+local function disableMovement()
+    character:WaitForChild("Humanoid").WalkSpeed = 0
+end
+
+disableMovement()
+  	end    
+})
+Tab:AddButton({
+	Name = "ativar movimentos",
+	Callback = function()
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+character:WaitForChild("Humanoid")
+
+local function enableMovement()
+    character:WaitForChild("Humanoid").WalkSpeed = 16 -- Pode ajustar para a velocidade desejada
+end
+
+enableMovement()
+  	end    
+})
+Tab:AddButton({
+	Name = "andar reto",
+	Callback = function()
+      		local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local function onJump()
+    humanoid.AutoRotate = true
+    humanoid.MoveDirection = Vector3.new(0, 0, 0)
+    humanoid:MoveTo(humanoid.RootPart.Position)
+end
+
+humanoid.AutoRotate = false
+humanoid.Jumping:Connect(onJump)
+  	end    
+})
+Tab:AddLabel("para desativar e só pular")
+
 
 local Tab = Window:MakeTab({
 	Name = "script hub",
@@ -242,6 +304,12 @@ Tab:AddButton({
 	Name = "infinite yield",
 	Callback = function()
       		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+  	end    
+})
+Tab:AddButton({
+	Name = "Reviz admin",
+	Callback = function()
+      		loadstring(game:HttpGetAsync("https://pastebin.com/raw/Caniwq2N"))()
   	end    
 })
 local Section = Tab:AddSection({
@@ -261,6 +329,12 @@ Tab:AddButton({
 })
 local Section = Tab:AddSection({
 	Name = "scripts bom"
+})
+Tab:AddButton({
+	Name = "tirar sombras",
+	Callback = function()
+      		game.Lighting.GlobalShadows = false
+  	end    
 })
 Tab:AddButton({
 	Name = "f3x",
@@ -502,6 +576,94 @@ for _,v in pairs(game:GetService("Players"):GetPlayers()) do
 end
   	end    
 })
+Tab:AddButton({
+	Name = "desativar esp",
+	Callback = function()
+      		Line.Visible = false
+  	end    
+})
+local Section = Tab:AddSection({
+	Name = "munição infinito"
+})
+Tab:AddButton({
+	Name = "M9",
+	Callback = function()
+      	wait(1)
+	-- Generated by Hydroxide's Upvalue Scanner: https://github.com/Upbolt/Hydroxide
+
+local aux = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Upbolt/Hydroxide/revision/ohaux.lua"))()
+
+local scriptPath = game:GetService("Players").LocalPlayer.Backpack.M9.GunInterface
+local closureName = "createRay"
+local upvalueIndex = 1
+local closureConstants = {
+	[1] = "Bullets",
+	[2] = "magnitude",
+	[3] = 10,
+	[4] = "math",
+	[5] = "random",
+	[7] = "Vector3"
+}
+
+local closure = aux.searchClosure(scriptPath, closureName, upvalueIndex, closureConstants)
+local value = 9000
+local elementIndex = "CurrentAmmo"
+
+
+-- DO NOT RELY ON THIS FEATURE TO PRODUCE 100% FUNCTIONAL SCRIPTS
+debug.getupvalue(closure, upvalueIndex)[elementIndex] = value
+
+wait(1)
+
+-- Generated by Hydroxide's Upvalue Scanner: https://github.com/Upbolt/Hydroxide
+
+local aux = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Upbolt/Hydroxide/revision/ohaux.lua"))()
+
+local scriptPath = game:GetService("Players").LocalPlayer.Backpack.M9.GunInterface
+local closureName = "createRay"
+local upvalueIndex = 1
+local closureConstants = {
+	[1] = "Bullets",
+	[2] = "magnitude",
+	[3] = 10,
+	[4] = "math",
+	[5] = "random",
+	[7] = "Vector3"
+}
+
+local closure = aux.searchClosure(scriptPath, closureName, upvalueIndex, closureConstants)
+local value = 9000
+local elementIndex = "MaxAmmo"
+
+
+-- DO NOT RELY ON THIS FEATURE TO PRODUCE 100% FUNCTIONAL SCRIPTS
+debug.getupvalue(closure, upvalueIndex)[elementIndex] = value
+  	end    
+})
+Tab:AddLabel("n ta funcionando")
+
+local Tab = Window:MakeTab({
+	Name = "ocultar ui",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "Roblox sistema"
+})
+Tab:AddButton({
+	Name = "ocultar chat",
+	Callback = function()
+      		local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+  	end    
+})
+Tab:AddButton({
+	Name = "descultar chat",
+	Callback = function()
+      		local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+  	end    
+})
 
 local Tab = Window:MakeTab({
 	Name = "teclado",
@@ -559,6 +721,12 @@ Tab:AddButton({
       		loadstring(game:HttpGet(('https://raw.githubusercontent.com/ZetraDDoS/Roblox-Zetra/main/Zetra%20HUB.lua'),true))()
   	end    
 })
+Tab:AddButton({
+	Name = "abrir console",
+	Callback = function()
+      		game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
+  	end    
+})
 
 -- brookhaven
 local Tab = Window:MakeTab({
@@ -592,6 +760,12 @@ local Section = Tab:AddSection({
 	Name = "prison life"
 })
 Tab:AddButton({
+	Name = "Tiger Admin",
+	Callback = function()
+      		loadstring(game:HttpGet("https://raw.githubusercontent.com/dalloc2/Roblox/main/TigerAdmin.lua"))()
+  	end    
+})
+Tab:AddButton({
 	Name = "prisonware",
 	Callback = function()
       		loadstring(game:HttpGet("https://raw.githubusercontent.com/Denverrz/scripts/master/PRISONWARE_v1.3.txt"))();
@@ -610,21 +784,6 @@ Tab:AddButton({
 	Name = "tect menu",
 	Callback = function()
       		loadstring(game:HttpGet("https://raw.githubusercontent.com/Infinity2346/Tect-Menu/main/Arsenalscript.txt"))()
-  	end    
-})
-
-local Tab = Window:MakeTab({
-	Name = "meus scripts",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-local Section = Tab:AddSection({
-	Name = "meus scripts"
-})
-Tab:AddButton({
-	Name = "infinite yield remaster",
-	Callback = function()
-      		loadstring(game:HttpGet("https://raw.githubusercontent.com/porrinha09/Infinite-yield-remaster-v1/main/infinite%20yield.lua",true))()
   	end    
 })
 
