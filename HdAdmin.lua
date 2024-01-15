@@ -749,6 +749,62 @@ Tab:AddButton({
       		loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/REDzHUB/main/REDzHUB"))()
   	end    
 })
+Tab:AddButton({
+	Name = "nome colorido",
+	Callback = function()
+      		while true do 
+      local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(0, 0.2550922632217407, 1)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(0, 1, 0.11916005611419678)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(1, 0, 0.09715032577514648)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(1, 0, 0.834061861038208)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(0.6147799491882324, 0, 1)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(1, 0.8638885617256165, 0)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "PickingRPNameColor",
+    [2] = Color3.new(1, 0.6158433556556702, 0)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
+    wait(1) 
+end
+  	end    
+})
 
 -- prison life
 local Tab = Window:MakeTab({
